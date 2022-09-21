@@ -20,7 +20,7 @@ const gGame = {
 function onInit() {
 
     gBoard = buildBoard()
-    console.log(gBoard)
+    // console.log(gBoard)
     renderBoard(gBoard, '.game-board')
 }
 
@@ -116,12 +116,12 @@ function renderBoard(mat, selector) {
 function onCellClicked(elCell, i, j, event) {
 
     if (!gGame.isOn) {
-        if (!gGameIntervalID){
+        if (!gGameIntervalID) {
             gGameIntervalID = startTimer('.timer span')
             gGame.isOn = true
         }
         else return
-    } 
+    }
 
     switch (event.which) {
         //left click
@@ -161,7 +161,6 @@ function onCellClicked(elCell, i, j, event) {
     if (isWin()) endGame(true)
 }
 
-
 function isWin() {
     // win if all the mines are flagged, and all the other cells are shown
     return ((gGame.shownCount + gGame.flaggedCount === gLevel.SIZE ** 2) && (gGame.flaggedCount === gLevel.MINES))
@@ -173,4 +172,25 @@ function endGame(win) {
     gGame.isOn = false
     if (win) console.log('game over! you won!')
     else console.log('game over! you lose!')
+}
+
+function onChooseLevel(boardSize, numMines) {
+    // console.log(`new size is ${boardSize} and there will be ${numMines} mines`);
+    resetGame(boardSize, numMines)
+    onInit()
+}
+
+function resetGame(boardSize, numMines) {
+    gLevel.SIZE = boardSize
+    gLevel.MINES = numMines
+
+    if (gGameIntervalID) {
+        clearInterval(gGameIntervalID)
+        document.querySelector('.timer span').innerText = '0'
+        gGameIntervalID = null
+        gGame.isOn = false
+        gGame.flaggedCount = 0
+        gGame.shownCount = 0
+        gBoard = []
+    }
 }
