@@ -7,6 +7,7 @@ body {
 
 .game-board {
     margin: auto;
+    overflow: scroll;
 }
 
 table {
@@ -17,8 +18,9 @@ table {
 
 td {
     border: solid black 2px;
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
+
 
 }
 
@@ -40,7 +42,9 @@ td {
   button{
     font-family: 'Nova Flat';
     margin: 10px;
+    margin-top: 30px;
     padding: 10px;
+    width: 100px;
   }
 
   button:hover{
