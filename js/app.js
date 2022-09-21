@@ -116,9 +116,12 @@ function renderBoard(mat, selector) {
 function onCellClicked(elCell, i, j, event) {
 
     if (!gGame.isOn) {
-        gGameIntervalID = startTimer('.timer span')
-        gGame.isOn = true
-    }
+        if (!gGameIntervalID){
+            gGameIntervalID = startTimer('.timer span')
+            gGame.isOn = true
+        }
+        else return
+    } 
 
     switch (event.which) {
         //left click
@@ -133,7 +136,7 @@ function onCellClicked(elCell, i, j, event) {
                 for (var i = 0; i < gBoard.length; i++) {
                     for (var j = 0; j < gBoard[0].length; j++) {
                         var currCell = gBoard[i][j]
-                        if (currCell.isMine){
+                        if (currCell.isMine) {
                             gBoard[i][j].isShown = true
                             document.querySelector(`.cell-${i}-${j} span`).hidden = false
                         }
@@ -161,12 +164,13 @@ function onCellClicked(elCell, i, j, event) {
 
 function isWin() {
     // win if all the mines are flagged, and all the other cells are shown
-    return ((gGame.shownCount + gGame.flaggedCount === gLevel.SIZE ** 2) && (gGame.flaggedCount === gLevel.MINES))   
+    return ((gGame.shownCount + gGame.flaggedCount === gLevel.SIZE ** 2) && (gGame.flaggedCount === gLevel.MINES))
 }
 
 function endGame(win) {
     clearInterval(gGameIntervalID)
-    // gGame.isOn = false
+    // gGameIntervalID = null
+    gGame.isOn = false
     if (win) console.log('game over! you won!')
     else console.log('game over! you lose!')
 }
