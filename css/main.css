@@ -1,3 +1,14 @@
+body {
+    text-align: center;
+    font-family: 'Nova Flat';
+    font-size: 22px;
+}
+
+
+.game-board {
+    margin: auto;
+}
+
 table {
     table-layout: fixed;
     /* border: solid 1px black;    */
@@ -14,3 +25,25 @@ td {
 .flagged {
     background-color: rgb(243, 97, 109);
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(243, 97, 109);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-size: small;
+  }
+
+  button{
+    font-family: 'Nova Flat';
+    margin: 10px;
+    padding: 10px;
+  }
+
+  button:hover{
+    cursor: pointer;
+    background-color: rgb(243, 97, 109);
+  }
