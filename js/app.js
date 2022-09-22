@@ -16,7 +16,8 @@ const gGame = {
     flaggedCount: 0,
     secsPassed: 0, //DO I NEED THIS??
     minesShown: 0,
-    lives: 1
+    lives: 1,
+    isHintMode: false
 }
 
 function onInit() {
@@ -120,9 +121,24 @@ function onCellClicked(elCell, i, j, event) {
             //give elCell the new element
             elCell = document.querySelector(`.cell-${i}-${j}`)
             elCell.querySelector('span').hidden = false
+
+            showHintBtns()
         }
         //game has ended
         else return
+    }
+
+    if (gGame.isHintMode){
+        if (gBoard[i][j].isShown) return
+        console.log(`Here's a hint`);
+        gGame.isHintMode = false
+        var elHintBtn = document.querySelector('.clicked')
+        // console.log(elHintBtn);
+        elHintBtn.style.opacity = 0
+        elHintBtn.disabled = true
+        elHintBtn.classList.remove('clicked')
+        document.querySelector('.hint-txt').hidden = true
+        return
     }
 
     var eventToCheck = (!event) ? 1 : event.which
@@ -193,6 +209,16 @@ function onCellClicked(elCell, i, j, event) {
     if (isWin()) endGame(true)
 }
 
+function showHintBtns(){
+    var elHintBtns = document.querySelectorAll('.hints button')
+
+    for (var i = 0; i < elHintBtns.length; i++) {
+        var elHintBtn = elHintBtns[i] 
+        elHintBtn.style.opacity = 100
+        elHintBtn.disabled = false
+    }
+}
+
 function updateFlagDisplay() {
     document.querySelector('.flags span').innerText = gLevel.MINES - gGame.flaggedCount-gGame.minesShown
 }
@@ -212,6 +238,7 @@ function endGame(win) {
 
     var elMsgSpan = document.querySelector('.win-or-lose span')
     elMsgSpan.innerText = (win) ? 'YOU WIN!! 🥳' : 'Sorry! Try again? 😵'
+    hideHintBtns()
 }
 
 function onChooseLevel(boardSize, numMines) {
@@ -223,6 +250,9 @@ function resetGame(boardSize, numMines) {
     gLevel.SIZE = boardSize
     gLevel.MINES = numMines
     gGame.lives = (numMines < 3) ? 1 : 3
+
+    hideHintBtns()
+    gGame.isHintMode = false
 
     if (gGameIntervalID) {
         clearInterval(gGameIntervalID)
@@ -237,6 +267,20 @@ function resetGame(boardSize, numMines) {
     }
 }
 
+function hideHintBtns(){
+
+    document.querySelector('.hint-txt').hidden = true
+
+    var elHintBtns = document.querySelectorAll('.hints button')
+
+    for (var i = 0; i < elHintBtns.length; i++) {
+        var elHintBtn = elHintBtns[i] 
+        elHintBtn.style.opacity = 0
+        elHintBtn.disabled = true
+        elHintBtn.classList.remove('clicked')
+    }
+}
+
 function checkNegsToOpen(cellRowIdx, cellColIdx) {
     for (var i = cellRowIdx - 1; i <= cellRowIdx + 1; i++) {
         if (i < 0 || i >= gBoard.length) continue
@@ -247,4 +291,22 @@ function checkNegsToOpen(cellRowIdx, cellColIdx) {
             onCellClicked(elNegCell, i, j)
         }
     }
+}
+
+function onGetHint(elHintBtn){
+    
+    if (gGame.isHintMode) {
+        elHintBtn.classList.remove('clicked') 
+        document.querySelector('.hint-txt').hidden = true
+        
+    } else {
+        elHintBtn.classList.add('clicked')
+        document.querySelector('.hint-txt').hidden = false
+        
+        // console.log(`Here's a hint`);
+    }
+    // elHintBtn.style.opacity = 0
+    // elHintBtn.disabled = true
+    
+    gGame.isHintMode = !gGame.isHintMode
 }

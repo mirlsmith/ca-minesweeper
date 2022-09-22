@@ -19,10 +19,6 @@ body {
 
 }
 
-/* .win-or-lose span{
-    /* font-size:x-large; 
-} */
-
 .win-or-lose span:hover{
     cursor: pointer;
 }
@@ -71,4 +67,19 @@ button {
 button:hover {
     cursor: pointer;
     background-color: rgb(243, 97, 109);
+}
+
+button:disabled{
+    cursor: default;
+}
+
+.hints button{
+    background-color: lightyellow;
+    width: auto;
+    font-size: small;
+    opacity: 0;
+}
+
+button.clicked{
+    background-color: rgb(249, 249, 97);
 }
