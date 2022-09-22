@@ -325,7 +325,7 @@ function giveHint(cellRowIdx, cellColIdx) {
 
     showCells(elCellsToShow)
 
-    //time covering of same cells
+    //timed covering of same cells
     setTimeout(hideCells, 1000, elCellsToShow)
 
 }

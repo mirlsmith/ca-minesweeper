@@ -15,8 +15,6 @@ body {
     margin: auto;
     text-align: center;
     margin-top: 10px;
-    /* opacity: 0; */
-
 }
 
 .win-or-lose span:hover{
@@ -30,7 +28,6 @@ body {
 
 table {
     table-layout: fixed;
-    /* border: solid 1px black;    */
     text-align: center;
 }
 
