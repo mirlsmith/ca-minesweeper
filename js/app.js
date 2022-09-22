@@ -128,12 +128,13 @@ function onCellClicked(elCell, i, j, event) {
         else return
     }
 
-    if (gGame.isHintMode){
+    if (gGame.isHintMode) {
         if (gBoard[i][j].isShown) return
-        console.log(`Here's a hint`);
+
+        giveHint(i, j)
+
         gGame.isHintMode = false
         var elHintBtn = document.querySelector('.clicked')
-        // console.log(elHintBtn);
         elHintBtn.style.opacity = 0
         elHintBtn.disabled = true
         elHintBtn.classList.remove('clicked')
@@ -209,18 +210,18 @@ function onCellClicked(elCell, i, j, event) {
     if (isWin()) endGame(true)
 }
 
-function showHintBtns(){
+function showHintBtns() {
     var elHintBtns = document.querySelectorAll('.hints button')
 
     for (var i = 0; i < elHintBtns.length; i++) {
-        var elHintBtn = elHintBtns[i] 
+        var elHintBtn = elHintBtns[i]
         elHintBtn.style.opacity = 100
         elHintBtn.disabled = false
     }
 }
 
 function updateFlagDisplay() {
-    document.querySelector('.flags span').innerText = gLevel.MINES - gGame.flaggedCount-gGame.minesShown
+    document.querySelector('.flags span').innerText = gLevel.MINES - gGame.flaggedCount - gGame.minesShown
 }
 
 function updateLivesDisplay() {
@@ -267,14 +268,14 @@ function resetGame(boardSize, numMines) {
     }
 }
 
-function hideHintBtns(){
+function hideHintBtns() {
 
     document.querySelector('.hint-txt').hidden = true
 
     var elHintBtns = document.querySelectorAll('.hints button')
 
     for (var i = 0; i < elHintBtns.length; i++) {
-        var elHintBtn = elHintBtns[i] 
+        var elHintBtn = elHintBtns[i]
         elHintBtn.style.opacity = 0
         elHintBtn.disabled = true
         elHintBtn.classList.remove('clicked')
@@ -293,20 +294,54 @@ function checkNegsToOpen(cellRowIdx, cellColIdx) {
     }
 }
 
-function onGetHint(elHintBtn){
-    
+function onGetHint(elHintBtn) {
+
     if (gGame.isHintMode) {
-        elHintBtn.classList.remove('clicked') 
+        elHintBtn.classList.remove('clicked')
         document.querySelector('.hint-txt').hidden = true
-        
     } else {
         elHintBtn.classList.add('clicked')
         document.querySelector('.hint-txt').hidden = false
-        
-        // console.log(`Here's a hint`);
     }
-    // elHintBtn.style.opacity = 0
-    // elHintBtn.disabled = true
-    
+
     gGame.isHintMode = !gGame.isHintMode
 }
+
+function giveHint(cellRowIdx, cellColIdx) {
+    
+    //show cell and hidden neighbors
+    var elCellsToShow = []
+    elCellsToShow.push(document.querySelector(`.cell-${cellRowIdx}-${cellColIdx}`))
+
+    for (var i = cellRowIdx - 1; i <= cellRowIdx + 1; i++) {
+        if (i < 0 || i >= gBoard.length) continue
+        for (var j = cellColIdx - 1; j <= cellColIdx + 1; j++) {
+            if (i === cellRowIdx && j === cellColIdx) continue
+            if (j < 0 || j >= gBoard[0].length) continue
+            if (gBoard[i][j].isShown || gBoard[i][j].isFlagged) continue
+            elCellsToShow.push(document.querySelector(`.cell-${i}-${j}`))
+        }
+    }
+
+    showCells(elCellsToShow)
+
+    //time covering of same cells
+    setTimeout(hideCells, 1000, elCellsToShow)
+
+}
+
+function showCells(elCells) {
+    for (let i = 0; i < elCells.length; i++) {
+        var elCell = elCells[i]
+        elCell.querySelector('span').hidden = false
+    }
+}
+
+function hideCells(elCells) {
+    for (let i = 0; i < elCells.length; i++) {
+        var elCell = elCells[i]
+        elCell.querySelector('span').hidden = true
+    }
+
+}
+
