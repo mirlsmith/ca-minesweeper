@@ -13,12 +13,12 @@ function getRandomIntInclusive(min, max) {
 
 function startTimer(selector) {
     var startTime = Date.now()
-    return setInterval(updateTimer, 100, startTime, selector)
+    return setInterval(updateTimer, 1000, startTime, selector)
 }
 
 function updateTimer(startTime, selector) {
     var timeDiff = Date.now() - startTime
-    var timeSecs = (timeDiff / 1000).toFixed(3)
+    var timeSecs = (timeDiff / 1000).toFixed(0)
     var elSelector = document.querySelector(selector)
     elSelector.innerText = timeSecs
 }

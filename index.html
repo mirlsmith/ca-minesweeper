@@ -17,7 +17,12 @@
         <h1>Minesweeper!</h1>
     </div>
 
-    <div class="timer">Game Time: <span></span> </div>
+    <div class="game-info"> 
+        <div class="timer"> Game Time: <span>0</span> </div> 
+        <div class="flags"> Mines left to flag: <span></span> </div>
+        <div class="lives">Lives Remaining: <span></span></div>
+        <div onclick="onChooseLevel(4,2)" class="win-or-lose"> <span>😊</span> </div>
+    </div>
 
     <div oncontextmenu="return false; " class="game">
         <table class="game-board">

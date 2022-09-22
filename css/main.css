@@ -4,6 +4,28 @@ body {
     font-size: 22px;
 }
 
+.game-info {
+    display: block;
+    text-align: left;
+    left: 0;
+    margin-bottom: 10px;
+}
+
+.win-or-lose{
+    margin: auto;
+    text-align: center;
+    margin-top: 10px;
+    /* opacity: 0; */
+
+}
+
+/* .win-or-lose span{
+    /* font-size:x-large; 
+} */
+
+.win-or-lose span:hover{
+    cursor: pointer;
+}
 
 .game-board {
     margin: auto;
@@ -20,8 +42,7 @@ td {
     border: solid black 2px;
     width: 35px;
     height: 35px;
-
-
+    transition: 0.5s;
 }
 
 .flagged {
@@ -37,17 +58,17 @@ td {
     color: rgb(0, 0, 0);
     text-align: center;
     font-size: small;
-  }
+}
 
-  button{
+button {
     font-family: 'Nova Flat';
     margin: 10px;
     margin-top: 30px;
     padding: 10px;
     width: 100px;
-  }
+}
 
-  button:hover{
+button:hover {
     cursor: pointer;
     background-color: rgb(243, 97, 109);
-  }
+}
