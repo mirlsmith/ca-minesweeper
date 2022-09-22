@@ -180,7 +180,7 @@ function onCellClicked(elCell, i, j, event) {
             if (gBoard[i][j].isFlagged) gGame.flaggedCount--
 
             //not flagged but no more flags left, do nothing
-            else if (gGame.flaggedCount == gLevel.MINES) break
+            else if (gGame.flaggedCount + gGame.minesShown == gLevel.MINES) break
             else gGame.flaggedCount++
 
             gBoard[i][j].isFlagged = !gBoard[i][j].isFlagged
