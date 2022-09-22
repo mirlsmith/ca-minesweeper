@@ -211,7 +211,7 @@ function endGame(win) {
     gGame.isOn = false
 
     var elMsgSpan = document.querySelector('.win-or-lose span')
-    elMsgSpan.innerText = (win) ? 'YOU WIN!! 🥳' : 'Sorry! Try again? 🫣'
+    elMsgSpan.innerText = (win) ? 'YOU WIN!! 🥳' : 'Sorry! Try again? 😵'
 }
 
 function onChooseLevel(boardSize, numMines) {
