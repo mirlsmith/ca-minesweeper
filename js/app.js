@@ -20,14 +20,10 @@ const gGame = {
 }
 
 function onInit() {
-
     updateFlagDisplay()
-
     updateLivesDisplay()
-
     gBoard = buildBoard()
     renderBoard(gBoard, '.game-board')
-
 }
 
 function buildBoard() {
@@ -38,12 +34,6 @@ function buildBoard() {
             board[i][j] = createCell()
         }
     }
-
-    //do these after click
-    // placeMines(board)
-
-    // setMinesNegsCount(board)
-
     return board
 }
 
@@ -59,17 +49,13 @@ function createCell() {
 //place mines randomly (but not on clicked cell)
 function placeMines(board, iIdx, jIdx) {
     var minesPlaced = 0
-
     while (minesPlaced < gLevel.MINES) {
-
         var rndmIdxI = getRandomIntInclusive(0, board.length - 1)
         var rndmIdxJ = getRandomIntInclusive(0, board[0].length - 1)
         if (rndmIdxI === iIdx && rndmIdxJ === jIdx) continue
         if (board[rndmIdxI][rndmIdxJ].isMine) continue
-
         board[rndmIdxI][rndmIdxJ].isMine = true
         minesPlaced++
-        // console.log(`placed mine #${minesPlaced} at ${rndmIdxI},${rndmIdxJ}`)
     }
 }
 
@@ -81,7 +67,6 @@ function setMinesNegsCount(board) {
             board[i][j].minesAroundCount = countMineNegs(board, i, j)
         }
     }
-
 }
 
 //count the number of neigbhors that are mines
@@ -100,7 +85,6 @@ function countMineNegs(board, rowIdx, colIdx) {
 }
 
 function renderBoard(mat, selector) {
-
     var strHTML = '<table oncontextmenu="return false;" border="0"><tbody>'
     for (var i = 0; i < mat.length; i++) {
 
@@ -163,12 +147,13 @@ function onCellClicked(elCell, i, j, event) {
                         }
                     }
                     endGame(false)
-                    break;
+                    break
                 } else {
                     elCell.querySelector('span').hidden = false
                     gBoard[i][j].isShown = true
                     gGame.lives--
                     gGame.minesShown++
+                    updateFlagDisplay()
                     updateLivesDisplay()
                     break
                 }
@@ -176,7 +161,6 @@ function onCellClicked(elCell, i, j, event) {
 
             //is a number over 0
             if (+elCell.querySelector('span').innerText > 0) {
-                // console.log('innerText of cell', +elCell.querySelector('span').innerText);
                 elCell.querySelector('span').hidden = false
                 gBoard[i][j].isShown = true
                 gGame.shownCount++
@@ -195,10 +179,9 @@ function onCellClicked(elCell, i, j, event) {
             //if already flagged, remove flag
             if (gBoard[i][j].isFlagged) gGame.flaggedCount--
 
-            //not flagged but no more flags, do nothing
+            //not flagged but no more flags left, do nothing
             else if (gGame.flaggedCount == gLevel.MINES) break
             else gGame.flaggedCount++
-
 
             gBoard[i][j].isFlagged = !gBoard[i][j].isFlagged
             elCell.classList.toggle('flagged')
@@ -207,12 +190,11 @@ function onCellClicked(elCell, i, j, event) {
             break
 
     }
-
     if (isWin()) endGame(true)
 }
 
 function updateFlagDisplay() {
-    document.querySelector('.flags span').innerText = gLevel.MINES - gGame.flaggedCount
+    document.querySelector('.flags span').innerText = gLevel.MINES - gGame.flaggedCount-gGame.minesShown
 }
 
 function updateLivesDisplay() {
@@ -230,7 +212,6 @@ function endGame(win) {
 
     var elMsgSpan = document.querySelector('.win-or-lose span')
     elMsgSpan.innerText = (win) ? 'YOU WIN!! 🥳' : 'Sorry! Try again? 🫣'
-    // elMsgSpan.style.opacity = '100'
 }
 
 function onChooseLevel(boardSize, numMines) {
@@ -251,6 +232,7 @@ function resetGame(boardSize, numMines) {
         gGame.isOn = false
         gGame.flaggedCount = 0
         gGame.shownCount = 0
+        gGame.minesShown = 0
         gBoard = []
     }
 }
